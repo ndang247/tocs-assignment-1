@@ -5,7 +5,7 @@ public class Runner {
             // System.out.println(LexicalAnalyser.analyse("311"));
             // System.out.println(LexicalAnalyser.analyse("0."));
             // System.out.println(LexicalAnalyser.analyse("0.51"));
-            System.out.println(LexicalAnalyser.analyse("742-72320/"));
+            System.out.println(LexicalAnalyser.analyse("+  "));
         } catch (NumberException e) {
             System.out.println(e.getMessage());
         } catch (ExpressionException e) {
