@@ -259,7 +259,7 @@ public class LexicalAnalyser {
 			}
 		}
 		if (state == 4) throw new NumberException(); // If the input is 0. without a digit after '.', throw an exception
-		if (state == 0 || state == 2) throw new ExpressionException(); // If the input is invalid (502+, ...), throw an exception
+		if (state == 0 || state == 2 || state == 5 || state == 6 || state == 7) throw new ExpressionException(); // If the input is invalid (502+, ...), throw an exception
 		return tokens;
 	}
 }
