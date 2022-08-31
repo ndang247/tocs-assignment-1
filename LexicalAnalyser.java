@@ -105,14 +105,13 @@ public class LexicalAnalyser {
 							state = 1;
 							break;
 						case ' ':
-							state = 6;
 							break;
 						case '+': // This state is not accepting operators
 						case '-':
 						case '*':
 						case '/':
 							throw new ExpressionException();
-						case '.': // This state is not accepting '.' after a non 0 digit
+						case '.': // This state is not accepting '.' after a non 0
 							throw new NumberException();
 						default:
 							throw new ExpressionException();
@@ -128,7 +127,10 @@ public class LexicalAnalyser {
 							tokens.add(new Token(Token.typeOf(input.charAt(i)))); // Add token to tokens list
 							state = 2;
 							break;
-						case '0': // This state is not accepting non 0 digits after 0
+						case ' ':
+							state = 5;
+							break;
+						case '0': // This state is not accepting non 0 digit after 0
 						case '1':
 						case '2':
 						case '3':
@@ -141,9 +143,6 @@ public class LexicalAnalyser {
 							throw new NumberException();
 						case '.': // If the character is a decimal, go to state 4
 							state = 4;
-							break;
-						case ' ':
-							state = 7;
 							break;
 						default:
 							throw new ExpressionException();
@@ -196,70 +195,10 @@ public class LexicalAnalyser {
 							throw new ExpressionException();
 					}
 					break;
-				case 6: // Whitespace and operator in front, accept number
-					switch (input.charAt(i)) {
-						case '0': // If the character is 0, go to state 3
-							str = "" + input.charAt(i); // Reset string for new number
-							tokens.add(new Token(Integer.parseInt(str))); // Add token to tokens list
-							state = 3;
-							break;
-						case '1': // If the character is 1-9, go to state 1
-						case '2':
-						case '3':
-						case '4':
-						case '5':
-						case '6':
-						case '7':
-						case '8':
-						case '9':
-							str = "" + input.charAt(i); // Reset string for new number
-							tokens.add(new Token(Integer.parseInt(str))); // Add token to tokens list
-							state = 1;
-							break;
-						case ' ':
-							break;
-						case '+': // This state is not accepting operator and decimal after whitespace
-						case '-':
-						case '*':
-						case '/':
-						case '.':
-							throw new ExpressionException();
-						default:
-							throw new ExpressionException();
-					}
-					break;
-				case 7: // Whitespace and 0 in front, accept operator
-					switch (input.charAt(i)) {
-						case '+' : // If the character is an operator, go to state 2
-						case '-' :
-						case '*' :
-						case '/' :
-							tokens.add(new Token(Token.typeOf(input.charAt(i)))); // Add token to tokens list
-							state = 2;
-							break;
-						case ' ':
-							break;
-						case '0': // This state is not accepting digit after 0 and whitespace 
-						case '1':
-						case '2':
-						case '3':
-						case '4':
-						case '5':
-						case '6':
-						case '7':
-						case '8':
-						case '9':
-							throw new NumberException();
-						case '.': // This state is not accepting decimal with whitepsace in between 0 and .
-							throw new ExpressionException();
-						default:
-							throw new ExpressionException();
-					}
-					break;
 			}
 		}
 		if (state == 4) throw new NumberException(); // If the input is 0. without a digit after '.', throw an exception
-		if (state == 0 || state == 2 || state == 5 || state == 6 || state == 7) throw new ExpressionException(); // If the input is invalid (502+, ...), throw an exception
+		if (state == 0 || state == 2 || state == 5) throw new ExpressionException(); // If the input is invalid (502+, ...), throw an exception
 		return tokens;
 	}
 }
