@@ -14,11 +14,11 @@ public class LexicalAnalyser {
 		// Loop through input string for example given input is 1+2*3
 		for(int i = 0; i < input.length(); i++) {
 			switch (state) {
-				case 0: // Initially accept numbers and whitespace
+				case 0: // Initially accept numbers
 					// Check the character
 					switch (input.charAt(i)) {
 						case ' ':
-							break;
+							throw new ExpressionException();
 						case '0': // If the character is 0, go to state 3
 							str = str + input.charAt(i); // Add character to string
 							tokens.add(new Token(Integer.parseInt(str))); // Add token to tokens list
